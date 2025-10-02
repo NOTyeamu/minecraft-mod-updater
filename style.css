@@ -1,0 +1,424 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: 
+        /* Полностью черный фон */
+        linear-gradient(45deg, #000000 25%, transparent 25%), 
+        linear-gradient(-45deg, #000000 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #000000 75%),
+        linear-gradient(-45deg, transparent 75%, #000000 75%),
+        /* Основной черный цвет */
+        #000000;
+    background-size: 40px 40px;
+    background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Добавляем эффект пикселей поверх фона */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.05) 0px,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px,
+            transparent 2px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.05) 0px,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px,
+            transparent 2px
+        );
+    pointer-events: none;
+}
+
+.app-window {
+    width: 500px;
+    height: 350px;
+    background-color: rgba(10, 10, 10, 0.95);
+    border-radius: 8px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Название в центре выше выборов */
+.app-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Minecraft', Arial, sans-serif;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+    position: relative;
+}
+
+.app-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #555, transparent);
+}
+
+.controls-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.version-combo,
+.loader-combo {
+    width: 180px;
+    background-color: rgba(20, 20, 20, 0.9);
+    border: 2px solid #333;
+    padding: 8px 12px;
+    border-radius: 0;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    font-family: 'Minecraft', Arial, sans-serif;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 25%);
+    box-shadow: 
+        inset 0 2px 0 rgba(80, 80, 80, 0.3),
+        inset 0 -2px 0 rgba(20, 20, 20, 0.3);
+    transition: all 0.3s ease;
+}
+
+.version-combo:focus,
+.loader-combo:focus {
+    border-color: #555;
+    box-shadow: 
+        inset 0 2px 0 rgba(100, 100, 100, 0.5),
+        inset 0 -2px 0 rgba(30, 30, 30, 0.5);
+}
+
+.version-combo option,
+.loader-combo option {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* Minecraft стиль кнопки - ЗЕЛЕНЫЙ */
+.animated-button {
+    font-size: 18px;
+    background-color: #008542;
+    color: #fff;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 0;
+    z-index: 1;
+    user-select: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: unset;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    font-weight: 900;
+    transition: all 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
+    font-family: 'Minecraft', Arial, sans-serif;
+    width: 200px;
+    height: 50px;
+    margin: 0 auto;
+    border-radius: 0;
+}
+
+.animated-button:before {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: "";
+    transition: 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
+    z-index: -1;
+    background-color: #008542 !important;
+    box-shadow: 
+        0 -4px rgb(21 108 0 / 50%) inset,
+        0 4px rgb(100 253 31 / 99%) inset, 
+        -4px 0 rgb(100 253 31 / 50%) inset,
+        4px 0 rgb(21 108 0 / 50%) inset;
+}
+
+.animated-button:after {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: "";
+    box-shadow: 0 4px 0 0 rgb(0 0 0 / 15%);
+    transition: 0.7s cubic-bezier(0, 0.8, 0.26, 0.99);
+}
+
+.animated-button:hover:before {
+    box-shadow: 
+        0 -4px rgb(0 0 0 / 50%) inset, 
+        0 4px rgb(255 255 255 / 20%) inset,
+        -4px 0 rgb(255 255 255 / 20%) inset, 
+        4px 0 rgb(0 0 0 / 50%) inset;
+}
+
+.animated-button:hover:after {
+    box-shadow: 0 4px 0 0 rgb(0 0 0 / 15%);
+}
+
+.animated-button:active {
+    transform: translateY(4px);
+}
+
+.animated-button:active:after {
+    box-shadow: 0 0px 0 0 rgb(0 0 0 / 15%);
+}
+
+/* Состояние disabled */
+.animated-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none !important;
+}
+
+.animated-button:disabled:before {
+    background-color: #555 !important;
+    box-shadow: 
+        0 -4px rgb(40 40 40 / 50%) inset,
+        0 4px rgb(120 120 120 / 99%) inset, 
+        -4px 0 rgb(120 120 120 / 50%) inset,
+        4px 0 rgb(40 40 40 / 50%) inset;
+}
+
+.animated-button:disabled:hover:before {
+    box-shadow: 
+        0 -4px rgb(40 40 40 / 50%) inset,
+        0 4px rgb(120 120 120 / 99%) inset, 
+        -4px 0 rgb(120 120 120 / 50%) inset,
+        4px 0 rgb(40 40 40 / 50%) inset;
+}
+
+/* Иконка загрузки для кнопки */
+.button-loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes buttonSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.animated-button.loading .button-text {
+    display: none;
+}
+
+.animated-button.loading .button-loader {
+    display: block;
+}
+
+/* Шрифт Minecraft */
+@font-face {
+    font-family: 'Minecraft';
+    src: url('https://fonts.cdnfonts.com/s/14613/Minecraft.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Прогресс бар - ЗЕЛЕНЫЙ */
+.progress-container {
+    width: 300px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #0a0a0a;
+    border-radius: 0;
+    overflow: hidden;
+    border: 2px solid #008542;
+    box-shadow: 
+        0 -2px rgb(21 108 0 / 50%) inset,
+        0 2px rgb(100 253 31 / 99%) inset, 
+        -2px 0 rgb(100 253 31 / 50%) inset,
+        2px 0 rgb(21 108 0 / 50%) inset;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #008542, #00a550);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 
+        0 -2px rgb(21 108 0 / 50%) inset,
+        0 2px rgb(100 253 31 / 99%) inset;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 25%);
+    font-family: 'Minecraft', Arial, sans-serif;
+}
+
+/* Уведомление */
+.notification {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 1000;
+    font-family: 'Minecraft', Arial, sans-serif;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 50%);
+    animation: notificationPop 0.5s ease-out;
+}
+
+@keyframes notificationPop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.notification.success {
+    color: #2e7d32;
+    display: flex;
+}
+
+.notification.error {
+    color: #b71c1c;
+    display: flex;
+}
+
+/* Сообщение об ошибках */
+.error-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 10, 0.95);
+    border: 2px solid #b71c1c;
+    border-radius: 0;
+    padding: 20px;
+    color: white;
+    z-index: 1000;
+    box-shadow: 
+        0 0 20px rgba(183, 28, 28, 0.5),
+        0 10px 30px rgba(0, 0, 0, 0.8);
+    max-width: 400px;
+    font-family: 'Minecraft', Arial, sans-serif;
+    backdrop-filter: blur(5px);
+}
+
+.error-message h3 {
+    margin-bottom: 10px;
+    color: #b71c1c;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+}
+
+.error-message ul {
+    list-style: none;
+    margin-left: 10px;
+}
+
+.error-message li {
+    margin: 5px 0;
+    padding: 2px 0;
+}
+
+.close-btn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: #b71c1c;
+    color: white;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Minecraft', Arial, sans-serif;
+    text-shadow: 0 1px 0 rgb(0 0 0 / 25%);
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+}

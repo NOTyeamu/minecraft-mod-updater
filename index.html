@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Mod Updater</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.cdnfonts.com/css/minecraft" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+    <div class="app-window">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Название в центре выше выборов -->
+            <div class="app-title">Minecraft Mod Updater</div>
+            
+            <div class="controls-row">
+                <select class="version-combo" id="versionCombo">
+                    <option value="">Загрузка версий...</option>
+                </select>
+                
+                <select class="loader-combo" id="loaderCombo">
+                    <option value="fabric">Fabric</option>
+                    <option value="forge">Forge</option>
+                    <option value="quilt">Quilt</option>
+                    <option value="neoforge">NeoForge</option>
+                </select>
+            </div>
+
+            <!-- Minecraft стиль кнопки -->
+            <button class="animated-button" id="updateButton" onclick="startUpdate()">
+                <span class="button-loader"></span>
+                <span class="button-text">Обновить</span>
+            </button>
+
+            <!-- Прогресс бар -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+
+        <!-- Уведомление -->
+        <div class="notification" id="notification"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
