@@ -350,6 +350,12 @@ body::before {
     font-family: 'Minecraft', Arial, sans-serif;
     text-shadow: 0 2px 0 rgb(0 0 0 / 50%);
     animation: notificationPop 0.5s ease-out;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.notification:hover {
+    transform: scale(1.1);
 }
 
 @keyframes notificationPop {
@@ -383,7 +389,9 @@ body::before {
     box-shadow: 
         0 0 20px rgba(183, 28, 28, 0.5),
         0 10px 30px rgba(0, 0, 0, 0.8);
-    max-width: 400px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
     font-family: 'Minecraft', Arial, sans-serif;
     backdrop-filter: blur(5px);
 }
@@ -392,16 +400,24 @@ body::before {
     margin-bottom: 10px;
     color: #b71c1c;
     text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+    font-size: 18px;
 }
 
-.error-message ul {
-    list-style: none;
-    margin-left: 10px;
+.failed-mods-list {
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
-.error-message li {
-    margin: 5px 0;
-    padding: 2px 0;
+.failed-mod-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.failed-mod-item:last-child {
+    border-bottom: none;
 }
 
 .close-btn {
@@ -421,4 +437,389 @@ body::before {
 .close-btn:hover {
     background: #d32f2f;
     transform: translateY(-1px);
+}
+
+/* Плавающая кнопка настроек */
+.floating-settings-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    background: rgba(0, 133, 66, 0.9);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 2px solid #00a550;
+}
+
+.floating-settings-btn:hover {
+    transform: scale(1.1);
+    background: rgba(0, 133, 66, 1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Кастомный чекбокс */
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+    user-select: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.container:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.line {
+    width: calc(100% - 8px);
+    height: 3px;
+    left: 4px;
+    background: rgb(0, 133, 66);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: .7s transform cubic-bezier(0,1,.33,1.2), background .4s;
+}
+
+.line-indicator {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.container input:checked ~ .line-indicator {
+    transform: translateY(-50%);
+}
+
+/* Hide the default checkbox */
+.container input {
+    opacity: 0;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+}
+
+/* Панель настроек модов */
+.mods-settings-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.mods-settings-panel.active {
+    display: flex;
+    opacity: 1;
+}
+
+.settings-content {
+    background: rgba(10, 10, 10, 0.95);
+    border: 3px solid #008542;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    padding: 30px;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 0.4s ease;
+    overflow-y: auto;
+    font-family: 'Minecraft', Arial, sans-serif;
+}
+
+.mods-settings-panel.active .settings-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.settings-title {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #00a550;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+    font-size: 24px;
+}
+
+.current-mods-section, .add-mod-section {
+    margin-bottom: 25px;
+}
+
+.current-mods-section h3, .add-mod-section h3 {
+    color: #00a550;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.mods-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.no-mods-message {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+    background: rgba(20, 20, 20, 0.5);
+    border: 1px dashed #333;
+}
+
+.mod-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid #333;
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+.mod-item:hover {
+    background: rgba(30, 30, 30, 0.8);
+    border-color: #008542;
+}
+
+.mod-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.mod-item-name {
+    font-weight: bold;
+}
+
+.mod-item-id {
+    font-size: 12px;
+    color: #888;
+    font-family: monospace;
+}
+
+.remove-mod-btn {
+    background: #b71c1c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 0;
+    font-family: 'Minecraft', Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.remove-mod-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+}
+
+.add-mod-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mod-input {
+    background: rgba(20, 20, 20, 0.9);
+    border: 2px solid #333;
+    padding: 12px;
+    border-radius: 0;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    font-family: 'Minecraft', Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.mod-input:focus {
+    border-color: #008542;
+}
+
+.add-mod-btn {
+    background: #008542;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 0;
+    font-family: 'Minecraft', Arial, sans-serif;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.add-mod-btn:hover {
+    background: #00a550;
+    transform: translateY(-2px);
+}
+
+.settings-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.save-settings-btn, .close-settings-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-family: 'Minecraft', Arial, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.save-settings-btn {
+    background: #008542;
+    color: white;
+}
+
+.save-settings-btn:hover {
+    background: #00a550;
+    transform: translateY(-2px);
+}
+
+.close-settings-btn {
+    background: #555;
+    color: white;
+}
+
+.close-settings-btn:hover {
+    background: #666;
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .app-window {
+        width: 95%;
+        height: 400px;
+    }
+    
+    .controls-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .version-combo,
+    .loader-combo {
+        width: 250px;
+    }
+    
+    .settings-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .add-mod-form {
+        flex-direction: column;
+    }
+    
+    .settings-actions {
+        flex-direction: column;
+    }
+    
+    .floating-settings-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .container {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-window {
+        height: 450px;
+    }
+    
+    .app-title {
+        font-size: 20px;
+    }
+    
+    .animated-button {
+        width: 180px;
+        height: 45px;
+        font-size: 16px;
+    }
+    
+    .progress-container {
+        width: 250px;
+    }
+    
+    .settings-content {
+        padding: 15px;
+    }
+    
+    .mod-item {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .remove-mod-btn {
+        align-self: flex-end;
+    }
+}
+
+/* Специфические стили для скроллбара в настройках */
+.settings-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-content::-webkit-scrollbar-track {
+    background: rgba(20, 20, 20, 0.8);
+}
+
+.settings-content::-webkit-scrollbar-thumb {
+    background: #008542;
+    border-radius: 0;
+}
+
+.settings-content::-webkit-scrollbar-thumb:hover {
+    background: #00a550;
+}
+
+.failed-mods-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.failed-mods-list::-webkit-scrollbar-track {
+    background: rgba(20, 20, 20, 0.8);
+}
+
+.failed-mods-list::-webkit-scrollbar-thumb {
+    background: #b71c1c;
+    border-radius: 0;
+}
+
+.failed-mods-list::-webkit-scrollbar-thumb:hover {
+    background: #d32f2f;
 }

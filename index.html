@@ -48,6 +48,43 @@
         <div class="notification" id="notification"></div>
     </div>
 
+    <!-- Плавающая кнопка настроек -->
+    <div class="floating-settings-btn" id="settingsBtn">
+        <label class="container">
+            <input type="checkbox" id="settingsToggle">
+            <span class="line"></span>
+            <span class="line line-indicator"></span>
+        </label>
+    </div>
+
+    <!-- Меню настроек модов -->
+    <div class="mods-settings-panel" id="modsSettingsPanel">
+        <div class="settings-content">
+            <h2 class="settings-title">Настройки модов</h2>
+            
+            <div class="current-mods-section">
+                <h3>Текущие моды:</h3>
+                <div class="mods-list" id="modsList">
+                    <!-- Моды будут добавляться динамически -->
+                </div>
+            </div>
+
+            <div class="add-mod-section">
+                <h3>Добавить свой мод:</h3>
+                <div class="add-mod-form">
+                    <input type="text" id="modNameInput" placeholder="Название мода" class="mod-input">
+                    <input type="text" id="modIdInput" placeholder="ID мода на Modrinth" class="mod-input">
+                    <button class="add-mod-btn" onclick="addCustomMod()">Добавить мод</button>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button class="save-settings-btn" onclick="saveModsSettings()">Сохранить</button>
+                <button class="close-settings-btn" onclick="closeSettings()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
